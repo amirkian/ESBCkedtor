@@ -1,0 +1,175 @@
+﻿@model ESBCkedtor.Models.ViewModels.FileContentViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Heads{
+
+}
+<h1>صفحه تست ckeditor</h1>
+@if (@Model.Message != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @Model.Message
+    </div>
+}
+
+
+
+
+<form class="form-inline" asp-controller="File" asp-action="GetContentFromURI" method="get">
+    <input type="number" name="version" id="version" value="108820815">
+
+    <button type="submit" class="btn btn-primary mb-2">
+        خواندن اطلاعات از سرویس
+    </button>
+</form>
+
+@*<form class="form-inline" asp-controller="File" asp-action="ReadFile" method="post" enctype="multipart/form-data">
+
+    <div class="form-group mx-sm-3 mb-2">
+        <label for="inputPassword2" class="sr-only">آدرس صفحه را وارد کنید</label>
+        <input type="text" class="form-control" id="inputPassword2" name="FilePath" placeholder="D:\Repos\ESBCkeditor\ESBCkedtor\ESBCkedtor\wwwroot\Files\TextFile.txt">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">ثبت</button>
+</form>
+*@
+<form id="form_id" asp-controller="File" asp-action="Edit" method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <input type="hidden" value="@Model.FilePath" name="FilePath">
+
+        <label for="exampleInputPassword1">محتوا</label>
+        <textarea @((string.IsNullOrEmpty(Model?.FileContent)) ? "disabled" :null) asp-for="FileContent" id="Description" class="ckeditor" name="FileContent" rows="200">
+            @{
+                @if (!string.IsNullOrEmpty(Model?.FileContent))
+                    @Model.FileContent
+
+
+
+
+
+
+            }
+        </textarea>
+    </div>
+
+    @* <button id="Edit" @((string.IsNullOrEmpty(Model?.FileContent)) ? "disabled" :null) type="submit" class="btn btn-primary">بروزرسانی</button>*@
+</form>
+<form class="form-inline" id="cpa-form" asp-controller="File" asp-action="Updateconfluence" method="post" enctype="multipart/form-data">
+    <input type="hidden" value="@Model.FileContent" name="FileContent" id="OptimzeFileContent">
+    @*<input type="text" class="form-control" id="Version" name="Version" placeholder="ورژن آخر را وارد کنید:25">*@
+    <button type="submit" class="btn btn-primary mb-2" @((string.IsNullOrEmpty(Model?.FileContent)) ? "disabled" :null)>
+        برروزرسانی سرویس
+    </button>
+</form>
+
+<div id="message"></div>
+@section Scripts{
+    <script src="~/ckeditor/ckeditor.js"></script>
+
+    <script src="~/js/jquery.js"></script>
+    <script defer>
+        function insertAtIndex(str, substring, index) {
+            return str.slice(0, index) + substring + str.slice(index);
+        }
+        //$("#Version").change(function () {
+        //    debugger;
+
+        //    var content = CKEDITOR.instances.Description.getData();
+        //    console.log('excontent:', content);
+        //    if (content) {
+        //        var optimizedContent = OptimzeFileContent(content);
+        //        $('#OptimzeFileContent').val(optimizedContent);
+        //        console.log('OptimzeFileContent:', optimizedContent);
+        //    }
+
+
+
+        //});
+
+        $(document).ready(function () {
+            optimizedTextContent = false;
+            $("#cpa-form").on('submit', function (e) {
+                debugger;
+                if (!optimizedTextContent) {
+                    e.preventDefault();
+                    var content = CKEDITOR.instances.Description.getData();
+                    console.log('excontent:', content);
+                    if (content) {
+                        var optimizedContent = OptimzeFileContent(content);
+                        $('#OptimzeFileContent').val(optimizedContent);
+                        console.log('OptimzeFileContent:', optimizedContent);
+                        optimizedTextContent=true;
+               $("#cpa-form").submit();
+
+                    }
+
+                }
+            });
+
+            // var content=CKEDITOR.replace('#Description');
+            //                          console.log('CKEDITOR.replace:', content);
+            debugger;
+
+            var content = CKEDITOR.instances.Description.getData();
+
+
+         //   var optimizedContent = OptimzeFileContent(content);
+            CKEDITOR.instances.Description.setData(optimizedContent)
+
+
+
+
+
+            //     CKEDITOR.replace(‘#Description’);
+
+
+
+            ///////////////////////////////////
+            // var content= CKEDITOR.instances.Description.getData();
+
+
+
+        });
+        function OptimzeFileContent(FileContent) {
+            debugger;
+
+             return FileContent;
+            debugger;
+          //  let regexp = /<(\w+)>(?!\w)(?!(<\/(\1)>))/gm;
+            let regexp = /<(img)>(?!\w)(?!(<\/(\1)>))/gm;
+            //let FileContent = `<b></b><p><b><g><img><br><p><hr><p><havij>`;
+
+            let matches = [...FileContent.matchAll(regexp)];
+            let insertPlace = [];
+            let countAddedCharacter = 0;
+            matches.forEach((match) => {
+                console.log('match.index:', match.index);
+                var insertCursor = FileContent.indexOf(">", match.index);
+                insertPlace.push(insertCursor);
+            });
+            //add
+            //****add */
+            var extendedLengh = 0;
+            console.log('insertPlace:', insertPlace);
+            insertPlace.forEach((item) => {
+                console.log('item is:', item);
+                //before
+                console.log('file content:', FileContent);
+                //insert
+                FileContent = insertAtIndex(FileContent, '/', item + extendedLengh);
+                //new insert
+                console.log('file content:', FileContent);
+
+                extendedLengh += 1;
+            });
+            //end add
+            $('#OptimzeFileContent').val(FileContent);
+            return FileContent;
+        }
+
+    </script>
+}

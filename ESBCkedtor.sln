@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ESBCkedtor", "ESBCkedtor\ESBCkedtor.csproj", "{6940D76A-E943-4DAC-84A7-75C7061695B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6940D76A-E943-4DAC-84A7-75C7061695B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6940D76A-E943-4DAC-84A7-75C7061695B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6940D76A-E943-4DAC-84A7-75C7061695B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6940D76A-E943-4DAC-84A7-75C7061695B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {489BFF8C-5137-41D5-B8E3-7B5206C18F82}
+	EndGlobalSection
+EndGlobal
